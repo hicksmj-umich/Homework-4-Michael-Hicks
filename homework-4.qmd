@@ -1,0 +1,32 @@
+---
+title: "Homework 4"
+format: html
+---
+
+```{r, include = FALSE}
+library(lme4)
+library(bbmle)
+library(e1071)
+library(tidyverse)
+library(dplyr)
+library(stringr)
+library(httr)
+library(jsonlite)
+library(tidytext)
+library(forcats)
+library(RedditExtractoR)
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
