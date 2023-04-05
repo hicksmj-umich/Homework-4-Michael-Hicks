@@ -15,18 +15,62 @@ library(jsonlite)
 library(tidytext)
 library(forcats)
 library(RedditExtractoR)
+library(wordcloud)
 ```
 
 ```{r}
-
+words <- find_thread_urls(subreddit = "Nintendo") |> 
+  unnest_tokens(word, text, token = "words")
 ```
 
 
+```{r}
+words <- words |>
+  filter(!word %in% stop_words$word)
+```
 
+```{r}
+top_words <- na.omit(words |> 
+  count(word, sort = TRUE))
+```
 
+```{r}
+top_words  |>
+  slice_max(n, n = 20) |> 
+   mutate(word = reorder(word, n)) |>
+  ggplot(aes(n, word)) +
+  geom_col(show.legend = FALSE)
+```
 
+```{r}
+user <- get_user_content("priorinoun")
 
+```
 
+```{r}
+comments <- tibble(json = user) |> 
+  unnest_longer(json) |>
+  unnest_wider(json) |>
+  unnest_longer(comment)
+```
+
+```{r}
+comment_words <- comments |> unnest_tokens(word, comment, token = "words") |>
+  filter(!word %in% stop_words$word)
+```
+
+```{r}
+top_words <- na.omit(comment_words |> 
+  count(word, sort = TRUE))
+```
+
+```{r}
+top_words  |>
+  slice_max(n, n = 30) |> 
+   mutate(word = reorder(word, n)) |>
+  ggplot(aes(n, word)) +
+  geom_col(show.legend = FALSE)
+```
 
 
 
